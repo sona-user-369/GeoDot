@@ -31,8 +31,8 @@ class MyApp extends StatelessWidget {
 
         },
 
-        setStateCallback: (){
-
+        setNextScreenAsyncCallback: () async{
+           return const MyHomePage();
         },
 
       ),
