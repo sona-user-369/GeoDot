@@ -34,6 +34,24 @@ class BoxDrawer extends StatelessWidget {
 
             },
           ),
+          ListTile(
+            title: SizedBox(
+              height: 40,
+              child: Container(
+                  alignment: Alignment.center,
+                  color: ColorPicker.success.withOpacity(0.5),
+                  child: Row(
+                    children: [
+                      Container(child: SvgPicture.asset(AppImages.settingsLogo, width: 40, height: 40, color: Colors.black,)),
+                      const Text('Settings'),
+                    ],
+                  )
+              ),
+            ),
+            onTap: () {
+
+            },
+          ),
 
           // Add more ListTile items for navigation
         ],
