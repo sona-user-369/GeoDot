@@ -109,7 +109,14 @@ class _ContactsPageState extends State<ContactsPage> {
                    ),
                  )
                ],
-            )
+            ),
+            floatingActionButton: FloatingActionButton(
+              backgroundColor: ColorPicker.success,
+              onPressed: (){
+                Navigator.pushNamed(context, 'add_contact');
+              },
+              child: Icon(Icons.add),
+            ),
           );
         }
     );
