@@ -23,15 +23,16 @@ class BoxDrawer extends StatelessWidget {
                 alignment: Alignment.center,
                 color: ColorPicker.success.withOpacity(0.5),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Container(child: SvgPicture.asset(AppImages.contactLogo, width: 40, height: 40, color: Colors.black,)),
+                      Container(child: SvgPicture.asset(AppImages.contactLogo, width: 20, height: 20, color: Colors.black,)),
                       const Text('My contacts'),
                     ],
                   )
               ),
             ),
             onTap: () {
-
+                Navigator.pushNamed(context, 'contacts');
             },
           ),
           ListTile(
@@ -41,8 +42,9 @@ class BoxDrawer extends StatelessWidget {
                   alignment: Alignment.center,
                   color: ColorPicker.success.withOpacity(0.5),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Container(child: SvgPicture.asset(AppImages.settingsLogo, width: 40, height: 40, color: Colors.black,)),
+                      Container(child: SvgPicture.asset(AppImages.settingsLogo, width: 20, height: 20, color: Colors.black,)),
                       const Text('Settings'),
                     ],
                   )
