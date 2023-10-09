@@ -1,5 +1,6 @@
 import 'package:flutter_svg/svg.dart';
 import 'package:geodot/widgets/box_card_dash.dart';
+import 'package:geodot/widgets/box_drawer.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 
@@ -33,9 +34,11 @@ class _DashBoardPageState extends State<DashBoardPage> {
         builder: (controller){
           return SafeArea(
               child: Scaffold(
-                drawer: Drawer(
-
+                appBar: AppBar(
+                  backgroundColor: ColorPicker.success.withOpacity(0.5),
+                  title: Text('Your GeoDot DashBoard'),
                 ),
+                drawer: BoxDrawer(),
                body: Column(
                  children: [
                    Row(
@@ -44,13 +47,13 @@ class _DashBoardPageState extends State<DashBoardPage> {
                        CardDash(
                          backgroundColor: ColorPicker.primary.withOpacity(0.4),
                          title: '4',
-                         subtitle: 'au total',
+                         subtitle: 'total',
                          logo: SvgPicture.asset(AppImages.totalLogo, width: 30, height: 30,),
                        ),
                        CardDash(
                          backgroundColor: ColorPicker.warning.withOpacity(0.7),
                          title: '2',
-                         subtitle: 'connectés',
+                         subtitle: 'connected',
                          logo: SvgPicture.asset(AppImages.onlineLogo, width: 30, height: 30,),
                        ),
                      ],
