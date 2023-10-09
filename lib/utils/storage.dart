@@ -1,9 +1,11 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart' ;
 
-class Storage {
+import '../data/services/auth_service.dart';
+
+class AppStorage {
 
   static const String _token = 'token' ;
-  static const String _loginUser = '' ;
+  static const String _loginUser = 'userLogin' ;
 
   static FlutterSecureStorage? _preferencesInstance ;
 
@@ -22,8 +24,8 @@ class Storage {
 
   static Future<void> initData() async {
     FlutterSecureStorage preferences = const FlutterSecureStorage();
-    // AuthService.userLogin = preferences.getBool(_loginUser) ?? false;
-    // AuthService.userId = '1' ;
+    AuthService.userLogin = int.parse(await preferences.read(key : _loginUser) ?? '0');
+    AuthService.userId = '11' ;
   }
 
   static Future<String?> getToken() async {

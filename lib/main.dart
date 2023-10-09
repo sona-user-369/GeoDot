@@ -1,9 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:another_flutter_splash_screen/another_flutter_splash_screen.dart';
-
+import 'package:geodot/data/services/auth_service.dart';
+import 'package:geodot/screens/dashboard.dart';
+import 'package:geodot/screens/login.dart';
+import 'package:geodot/screens/register.dart';
+import 'package:geodot/utils/colors.dart';
+import 'package:geodot/utils/images.dart';
+import 'package:geodot/utils/routes.dart';
+import 'package:geodot/utils/storage.dart';
+import 'package:get/get.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized() ;
 
+  AppStorage.init();
+
+  Routes.defineRoutes();
 
   runApp(const MyApp());
 }
@@ -14,15 +26,24 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       theme: ThemeData(
 
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: ColorPicker.primary),
         useMaterial3: true,
       ),
-      home: FlutterSplashScreen(
+      debugShowCheckedModeBanner: false,
+      onGenerateRoute: Routes.router.generator,
+      home: FlutterSplashScreen.fadeIn(
+        backgroundColor: ColorPicker.white,
         defaultNextScreen: null,
-        splashScreenBody: Image.asset(''),
+        childWidget: Center(
+            child: SizedBox(
+              width: 100,
+                height: 100,
+                child: Image.asset(AppImages.logo)
+            )
+        ),
         onInit: (){
 
         },
@@ -31,8 +52,9 @@ class MyApp extends StatelessWidget {
 
         },
 
-        setNextScreenAsyncCallback: () async{
-           return const MyHomePage();
+        setNextScreenAsyncCallback: () async {
+          return await AppStorage.getToken() == null  ? const RegisterPage():
+          AuthService.userLogin == 0 ? const LoginPage(): const  MyHomePage();
         },
 
       ),
@@ -52,14 +74,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-
-
-
   @override
   Widget build(BuildContext context) {
 
-    return const Scaffold(
-
-    );
+    return const DashBoardPage() ;
   }
 }
