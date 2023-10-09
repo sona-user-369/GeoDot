@@ -9,6 +9,7 @@ import 'package:geodot/utils/images.dart';
 import 'package:geodot/utils/routes.dart';
 import 'package:geodot/utils/storage.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized() ;
@@ -26,12 +27,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
     return GetMaterialApp(
       theme: ThemeData(
 
         colorScheme: ColorScheme.fromSeed(seedColor: ColorPicker.primary),
         useMaterial3: true,
+        textTheme: GoogleFonts.robotoMonoTextTheme(textTheme).copyWith(
+          bodyMedium: GoogleFonts.robotoMono(textStyle: textTheme.bodyMedium),
+        ),
       ),
+
       debugShowCheckedModeBanner: false,
       onGenerateRoute: Routes.router.generator,
       home: FlutterSplashScreen(
