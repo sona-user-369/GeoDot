@@ -43,17 +43,20 @@ class _LoginPageState extends State<LoginPage> {
                     child: SizedBox(
                       width: MediaQuery.of(context).size.width,
                       height: MediaQuery.of(context).size.height/2,
-                      child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.green,
-                          borderRadius: BorderRadius.vertical(
-                            top: Radius.elliptical(MediaQuery.of(context).size.width, -3)
+                      child: ClipPath(
+                        clipper: ConvexClipper(),
+                        child: Container(
+                          decoration: BoxDecoration(
+                              color: Colors.green,
+                            borderRadius: BorderRadius.vertical(
+                              top: Radius.elliptical(MediaQuery.of(context).size.width, -3)
+                            ),
+                            border: Border.all(color: Colors.green)
                           ),
-                          border: Border.all(color: Colors.green)
-                        ),
-                        child: const Column(
+                          child: const Column(
 
-                        ) ,
+                          ) ,
+                        ),
                       ),
                     ),
                   )
@@ -63,5 +66,29 @@ class _LoginPageState extends State<LoginPage> {
           );
         }
     );
+  }
+}
+
+
+class ConvexClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    final path = Path();
+    path.moveTo(size.width, 0);
+    path.lineTo(0, size.height);
+    path.lineTo(size.width, size.height);
+    path.lineTo(size.width, 0);
+    // path.lineTo(0, size.height/2);
+    // path.lineTo(0, size.height);
+
+    path.quadraticBezierTo(0, 79, 0, 0); // Courbe concave vers le coin inférieur droit
+    // path.lineTo(0, 0); // Ligne jusqu'au coin supérieur droit
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    return true;
   }
 }

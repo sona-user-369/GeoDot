@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
           AuthService.userLogin == 0 ? const LoginPage(): const DashBoardPage();
           // const  MyHomePage();
         },
-        defaultNextScreen: LoginPage(),
+        defaultNextScreen: RegisterPage(),
 
       ),
     );
