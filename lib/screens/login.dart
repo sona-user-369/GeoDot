@@ -38,16 +38,24 @@ class _LoginPageState extends State<LoginPage> {
                     alignment: Alignment.topLeft,
                     child: Image.asset(AppImages.logo),
                   ),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.elliptical(MediaQuery.of(context).size.width, -100)
-                      ),
-                      border: Border.all(color: Colors.green)
-                    ),
-                    child: const Column(
+                  Positioned(
+                    bottom: 0,
+                    child: SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height/2,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.green,
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.elliptical(MediaQuery.of(context).size.width, -3)
+                          ),
+                          border: Border.all(color: Colors.green)
+                        ),
+                        child: const Column(
 
-                    ) ,
+                        ) ,
+                      ),
+                    ),
                   )
 
                 ],

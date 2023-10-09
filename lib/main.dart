@@ -10,10 +10,10 @@ import 'package:geodot/utils/routes.dart';
 import 'package:geodot/utils/storage.dart';
 import 'package:get/get.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized() ;
 
-  AppStorage.init();
+  await AppStorage.init();
 
   Routes.defineRoutes();
 
@@ -34,28 +34,30 @@ class MyApp extends StatelessWidget {
       ),
       debugShowCheckedModeBanner: false,
       onGenerateRoute: Routes.router.generator,
-      home: FlutterSplashScreen.fadeIn(
+      home: FlutterSplashScreen(
         backgroundColor: ColorPicker.white,
-        defaultNextScreen: null,
-        childWidget: Center(
+        splashScreenBody: Center(
             child: SizedBox(
               width: 100,
                 height: 100,
                 child: Image.asset(AppImages.logo)
             )
         ),
-        onInit: (){
+        onInit: ()  {
 
         },
 
-        onEnd: (){
+        onEnd: () {
 
         },
 
         setNextScreenAsyncCallback: () async {
+
           return await AppStorage.getToken() == null  ? const RegisterPage():
-          AuthService.userLogin == 0 ? const LoginPage(): const  MyHomePage();
+          AuthService.userLogin == 0 ? const LoginPage(): const DashBoardPage();
+          // const  MyHomePage();
         },
+        defaultNextScreen: LoginPage(),
 
       ),
     );
@@ -64,9 +66,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
-
-
-
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
