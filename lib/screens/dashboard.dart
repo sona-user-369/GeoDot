@@ -35,7 +35,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
               child: Scaffold(
             appBar: AppBar(
               backgroundColor: ColorPicker.success.withOpacity(0.5),
-              title: Text('Your GeoDot DashBoard'),
+              title: const Text('Your GeoDot DashBoard'),
             ),
             drawer: BoxDrawer(),
             body: Column(
@@ -65,92 +65,97 @@ class _DashBoardPageState extends State<DashBoardPage> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: Constants.defaultPadding,
                 ),
-                Stack(
-                  children: [
-                    Container(
-                      // width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.only(left: 10, right: 10),
-                      height: 400,
-                      decoration: BoxDecoration(
-                          color: ColorPicker.black.withOpacity(0.7),
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.black)),
-                      child: Container(
-                        // width: MediaQuery.of(context).size.width - Constants.defaultPadding,
-                        height: 400,
-                        margin: EdgeInsets.only(left: 20, right: 20),
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            border: Border.all(color: Colors.black)),
+
+                Container(
+                  color: ColorPicker.danger,
+                  child: Stack(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
                         child: Container(
                           height: 400,
-                          margin: EdgeInsets.only(left: 30, right: 30),
                           decoration: BoxDecoration(
+                              color: ColorPicker.black.withOpacity(0.7),
                               shape: BoxShape.circle,
                               border: Border.all(color: Colors.black)),
                           child: Container(
+                            // width: MediaQuery.of(context).size.width - Constants.defaultPadding,
                             height: 400,
-                            margin: EdgeInsets.only(left: 40, right: 40),
+                            margin: const EdgeInsets.only(left: 20, right: 20),
                             decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 border: Border.all(color: Colors.black)),
                             child: Container(
                               height: 400,
-                              margin: EdgeInsets.only(left: 50, right: 50),
+                              margin: EdgeInsets.only(left: 30, right: 30),
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   border: Border.all(color: Colors.black)),
+                              child: Container(
+                                height: 400,
+                                margin: EdgeInsets.only(left: 40, right: 40),
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: Colors.black)),
+                                child: Container(
+                                  height: 400,
+                                  margin: EdgeInsets.only(left: 50, right: 50),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(color: Colors.black)),
+                                ),
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    Positioned(
-                        bottom: 175,
-                        left: 155,
-                        child: Tooltip(
-                          message: 'Me',
-                            decoration: const BoxDecoration(
-                              color: ColorPicker.success
-                            ),
-                            child: SvgPicture.asset(
-                          AppImages.dot,
-                          color: ColorPicker.warning,
-                          width: 50,
-                          height: 50,
-                        ))),
-                    Positioned(
-                        bottom: 200,
-                        left: 100,
-                        child: Tooltip(
-                            message: 'Tata',
-                            decoration: const BoxDecoration(
+                      Positioned(
+                          // bottom: 175,
+                          // left: 155,
+                          child: Tooltip(
+                            message: 'Me',
+                              decoration: const BoxDecoration(
                                 color: ColorPicker.success
-                            ),
-                            child: SvgPicture.asset(
-                              AppImages.dot,
-                              color: ColorPicker.warning,
-                              width: 50,
-                              height: 50,
-                            ))),
-                    Positioned(
-                        bottom: 175,
-                        left: 300,
-                        child: Tooltip(
-                            message: 'con23221212p',
-                            decoration: const BoxDecoration(
-                                color: ColorPicker.success
-                            ),
-                            child: SvgPicture.asset(
-                              AppImages.dot,
-                              color: ColorPicker.warning,
-                              width: 50,
-                              height: 50,
-                            ))),
-                  ],
+                              ),
+                              child: SvgPicture.asset(
+                            AppImages.dot,
+                            color: ColorPicker.warning,
+                            width: 50,
+                            height: 50,
+                          ))),
+                      Positioned(
+                          bottom: 200,
+                          left: 100,
+                          child: Tooltip(
+                              message: 'Tata',
+                              decoration: const BoxDecoration(
+                                  color: ColorPicker.success
+                              ),
+                              child: SvgPicture.asset(
+                                AppImages.dot,
+                                color: ColorPicker.warning,
+                                width: 50,
+                                height: 50,
+                              ))),
+                      Positioned(
+                          bottom: 175,
+                          left: 300,
+                          child: Tooltip(
+                              message: 'con23221212p',
+                              decoration: const BoxDecoration(
+                                  color: ColorPicker.success
+                              ),
+                              child: SvgPicture.asset(
+                                AppImages.dot,
+                                color: ColorPicker.warning,
+                                width: 50,
+                                height: 50,
+                              ))),
+                    ],
+                  ),
                 ),
               ],
             ),
