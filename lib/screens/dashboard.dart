@@ -77,7 +77,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
                         height: 400,
-                        width: MediaQuery.of(context).devicePixelRatio *5,
+                        width: 400,
                         decoration: BoxDecoration(
                             color: ColorPicker.black.withOpacity(0.7),
                             shape: BoxShape.circle,
