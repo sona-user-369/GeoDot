@@ -160,7 +160,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           onPressed: (){
                             Navigator.pushNamed(context, 'login');
                           },
-                          child: Text('Vous n\'avez pas un compte ?'),
+                          child: Text('Do you have an account ?'),
                         ),
                       ),
                       
