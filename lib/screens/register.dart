@@ -153,6 +153,16 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
 
                       SizedBox(height: Constants.defaultPadding,),
+
+                      Container(
+                        alignment: Alignment.topRight,
+                        child: TextButton(
+                          onPressed: (){
+                            Navigator.pushNamed(context, 'login');
+                          },
+                          child: Text('Vous n\'avez pas un compte ?'),
+                        ),
+                      ),
                       
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
