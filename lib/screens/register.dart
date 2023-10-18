@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geodot/controllers/register_controller.dart';
@@ -33,9 +34,20 @@ class _RegisterPageState extends State<RegisterPage> {
     controller = Get.put(RegisterController());
   }
 
-  submit() async {
-      if(_formKey.currentState!.validate()){
-        controller.changeLoadingState(true) ;
+  submit(data, context) async {
+      if(_formKey.currentState!.validate()) {
+        controller.changeLoadingState(true);
+        if (await controller.sendRegister(data)) {
+          Navigator.pushNamed(context, 'login');
+        }
+        controller.changeLoadingState(false);
+        if(!controller.connectivity){
+           Flushbar(
+            title:  "Error",
+            message:  "Unable to connect to the remote server",
+            duration:  Duration(seconds: 3),
+          ).show(context);
+        }
       }
   }
   
@@ -115,7 +127,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                       ),
 
-                      SizedBox(height: Constants.defaultPadding,),
+                      const SizedBox(height: Constants.defaultPadding,),
 
                       Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -260,7 +272,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           onPressed: (){
                             Navigator.pushNamed(context, 'login');
                           },
-                          child: Text('Do you have an account ?'),
+                          child: const Text('Do you have an account ?'),
                         ),
                       ),
                       
@@ -270,7 +282,11 @@ class _RegisterPageState extends State<RegisterPage> {
                           fixedSize: Size(160, 40)
                         ),
                           onPressed: () async{
-                            await submit();
+                           var data = {
+                             "username": usernameController.text,
+                             "password": passwordController.text,
+                           };
+                            await submit(data, context);
                           },
                           child: !controller.loadingState ? const Text(
                               'Register',
