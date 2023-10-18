@@ -59,11 +59,12 @@ class MyApp extends StatelessWidget {
 
         setNextScreenAsyncCallback: () async {
 
-          return await AppStorage.getToken() == null  ? const RegisterPage():
+          return  AuthService.userNovice == 1  ? const RegisterPage():
           AuthService.userLogin == 0 ? const LoginPage(): const DashBoardPage();
           // const  MyHomePage();
         },
-        defaultNextScreen: RegisterPage(),
+        defaultNextScreen: AuthService.userNovice == 1  ? const RegisterPage():
+        AuthService.userLogin == 0 ? const LoginPage(): const DashBoardPage(),
 
       ),
     );

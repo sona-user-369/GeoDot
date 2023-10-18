@@ -25,6 +25,7 @@ class AppStorage {
   static Future<void> initData() async {
     FlutterSecureStorage preferences = const FlutterSecureStorage();
     AuthService.userLogin = int.parse(await preferences.read(key : _loginUser) ?? '0');
+    AuthService.userNovice = await preferences.read(key: _token) == null ? 1: 0 ;
     AuthService.userId = '11' ;
   }
 

@@ -6,6 +6,7 @@ import 'package:geodot/utils/storage.dart';
 
 class AuthService {
   static int userLogin = 0 ;
+  static int userNovice = 0 ;
   static String userId =  '' ;
   static String email = '' ;
 
