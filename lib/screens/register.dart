@@ -38,6 +38,12 @@ class _RegisterPageState extends State<RegisterPage> {
       if(_formKey.currentState!.validate()) {
         controller.changeLoadingState(true);
         if (await controller.sendRegister(data)) {
+          Flushbar(
+            title:  "Congratulations",
+            message:  "You can login to your account now !",
+            duration:  Duration(seconds: 3),
+          ).show(context);
+
           Navigator.pushNamed(context, 'login');
         }
         controller.changeLoadingState(false);
@@ -91,7 +97,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             if(value == null || value == ''){
                               return 'Champ requis';
                             }
-                            return null ;
+                            return controller.validState ;
                           },
                           decoration: InputDecoration(
                             // filled: true,
@@ -219,7 +225,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             if(value == null || value == ''){
                               return 'Champ requis';
                             }
-                            return null ;
+                            return controller.verifyMatchCredentials(passwordController.text, confirmPasswordController.text) ? null : "Mot de passe non confirmé" ;
                           },
                           decoration: InputDecoration(
                             // filled: true,

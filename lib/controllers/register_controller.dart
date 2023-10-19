@@ -24,7 +24,8 @@ class RegisterController extends GetxController {
 
    sendRegister(data) async {
     try{
-     dynamic response = await AuthService.register(data);
+     await AuthService.register(data);
+     validState = null ;
     }catch(e){
       if(e is DioException){
         if(e.response != null ){
@@ -39,6 +40,10 @@ class RegisterController extends GetxController {
     }
     update();
     return true ;
+  }
+
+  verifyMatchCredentials(oldDis, newDis){
+    return oldDis != newDis ? false: true;
   }
 
 }
