@@ -7,7 +7,7 @@ import 'package:geodot/utils/storage.dart';
 class AuthService {
   static int userLogin = 0 ;
   static int userNovice = 0 ;
-  static String userId =  '' ;
+  static String? userId =  '' ;
   static String email = '' ;
 
   static login(data) async{
@@ -22,6 +22,7 @@ class AuthService {
     );
 
     AppStorage.setToken(response.data["token"]);
+    AppStorage.setLoginUser(1) ;
 
     userLogin = 1 ;
 

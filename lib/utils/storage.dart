@@ -28,13 +28,16 @@ class AppStorage {
   static Future<void> initData() async {
     FlutterSecureStorage preferences = const FlutterSecureStorage();
     AuthService.userLogin = int.parse(await preferences.read(key : _loginUser) ?? '0');
+    print(AuthService.userLogin);
     AuthService.userNovice = await preferences.read(key: _token) == null ? 1: 0 ;
-    AuthService.userId = (await preferences.read(key: _userId))! ;
+    print(AuthService.userNovice);
+    AuthService.userId = await preferences.read(key: _userId) ;
   }
 
   static Future<String?> getToken() async {
     return await preferences.read(key: _token);
   }
+
 
   static Future<String?> getUserId() async {
     return await preferences.read(key: _userId);
@@ -46,7 +49,7 @@ class AppStorage {
   }
 
 
-  static setLoginUser(bool value)  async {
+  static setLoginUser(int value)  async {
     return await  preferences.write(key:_loginUser, value:value.toString());
   }
 
@@ -65,5 +68,6 @@ class AppStorage {
 
     return await preferences.write(key: _userConId, value: value) ;
   }
+
 
 }
