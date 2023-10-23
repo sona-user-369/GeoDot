@@ -22,6 +22,7 @@ class _ContactsPageState extends State<ContactsPage> {
   var searchController = TextEditingController() ;
 
 
+
   @override
   void initState() {
     // TODO: implement initState
@@ -38,7 +39,7 @@ class _ContactsPageState extends State<ContactsPage> {
           return  Scaffold(
             appBar: AppBar(
               backgroundColor: ColorPicker.success.withOpacity(0.5),
-              title: Text('My contacts'),
+              title: const Text('My contacts'),
             ),
               drawer: BoxDrawer(),
             body:  Column(
@@ -84,28 +85,66 @@ class _ContactsPageState extends State<ContactsPage> {
                      ),
                    ),
                  ),
-                 SizedBox(height: Constants.defaultPadding,),
-                 const SizedBox(
+                 const SizedBox(height: Constants.defaultPadding,),
+                 Row(
+                   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                   children: [
+                     InkWell(
+                       onTap: (){
+                         controller.changeContactState(true);
+                       },
+                       child: Container(
+                         alignment: Alignment.center,
+                         height: 30,
+                         width: 80,
+                         decoration: BoxDecoration(
+                           borderRadius: BorderRadius.circular(15),
+                           color: controller.contact  ? ColorPicker.success.withOpacity(0.5):ColorPicker.white
+                         ),
+                         child: Text(
+                           'main'
+                         ),
+                       ),
+                     ),
+                      InkWell(
+                        onTap: (){
+                          controller.changeContactState(false);
+                        },
+                        child: Container(
+                          alignment: Alignment.center,
+                          height: 30,
+                          width: 80,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: !controller.contact  ? ColorPicker.success.withOpacity(0.5):ColorPicker.white
+                          ),
+                         child: Text(
+                           'requests'
+                         ),
+                     ),
+                      )
+                   ],
+                 ),
+                  SizedBox(
                    child: SingleChildScrollView(
                      child: Column(
-                       children: [
-                         BoxContact(
-                           label: 'con23221212p',
-                           image: AppImages.personMan,
-                           online: true,
-                         ),
-                         BoxContact(
-                           label: 'Tata',
-                           image: AppImages.personMan,
-                           online: true,
-                         ),
-                         BoxContact(
-                           label: 'Gérard',
-                           image: AppImages.personMan,
-                           online: false,
-                         )
-                       ],
-                     ),
+                       children: controller.contact ? controller.contacts.where((element) => element.contact!.state == true).map(
+                               (e) => BoxContact(
+                                   label: e.contact!.user!.conId!,
+                                   image: AppImages.geoDotContact,
+                                   online: e.connect!,
+                               )
+                       ).toList():
+                       controller.contacts.where((element) => element.contact!.state == false).map(
+                               (e) => BoxContact(
+                             label: e.contact!.user!.conId!,
+                             image: AppImages.geoDotContact,
+                             online: e.connect!,
+                           )
+                       ).toList()
+                     )
+
+                     ,
                    ),
                  )
                ],

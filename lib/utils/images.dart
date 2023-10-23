@@ -11,4 +11,8 @@ class AppImages {
   static const String personGirl = 'assets/logos/person-girl.svg' ;
   static const String dot = 'assets/logos/dot.svg' ;
 
+  static const String geoDotContact = 'assets/logos/geodot-bg.svg' ;
+
+  static const String acceptLogo = 'assets/logos/accept.svg' ;
+
 }

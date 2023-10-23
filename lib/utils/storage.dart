@@ -6,6 +6,8 @@ class AppStorage {
 
   static const String _token = 'token' ;
   static const String _loginUser = 'userLogin' ;
+  static const String _userId = 'userId' ;
+  static const String _userConId = 'userConId' ;
 
   static FlutterSecureStorage? _preferencesInstance ;
 
@@ -15,6 +17,7 @@ class AppStorage {
     }
     return _preferencesInstance!;
   }
+
 
   static Future<void> init() async {
     _preferencesInstance = const FlutterSecureStorage();
@@ -26,11 +29,20 @@ class AppStorage {
     FlutterSecureStorage preferences = const FlutterSecureStorage();
     AuthService.userLogin = int.parse(await preferences.read(key : _loginUser) ?? '0');
     AuthService.userNovice = await preferences.read(key: _token) == null ? 1: 0 ;
-    AuthService.userId = '11' ;
+    AuthService.userId = (await preferences.read(key: _userId))! ;
   }
 
   static Future<String?> getToken() async {
     return await preferences.read(key: _token);
+  }
+
+  static Future<String?> getUserId() async {
+    return await preferences.read(key: _userId);
+  }
+
+
+  static Future<String?> getUserConId() async {
+    return await preferences.read(key: _userConId);
   }
 
 
@@ -42,6 +54,16 @@ class AppStorage {
   static setToken(String value) async{
 
     return await preferences.write(key:_token, value:value);
+  }
+
+  static setIdUser(String value) async {
+
+    return await preferences.write(key: _userId, value: value) ;
+  }
+
+  static setUserConId(String value) async {
+
+    return await preferences.write(key: _userConId, value: value) ;
   }
 
 }

@@ -29,7 +29,7 @@ class LoginController extends GetxController {
       if(e is DioException){
         if(e.response != null ){
           connectivity = true ;
-          validState = 'your username or password are incorrect' ;
+          validState = 'your username or password is incorrect' ;
         }else{
           print(e);
           connectivity = false ;

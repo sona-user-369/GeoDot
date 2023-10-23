@@ -9,12 +9,14 @@ class BoxContact extends StatelessWidget {
     super.key,
     required this.label,
     required this.image,
-    required this.online,
+    this.online,
+    this.request = false,
   });
 
   final String label ;
   final String image ;
-  final bool online ;
+  final bool? online ;
+  final bool request ;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,9 @@ class BoxContact extends StatelessWidget {
             ),
           ),
           
-          SvgPicture.asset(AppImages.dot, color: online ? ColorPicker.warning: ColorPicker.danger,width: 50, height: 50,)
+           !request ? SvgPicture.asset(AppImages.dot, color: online! ? ColorPicker.warning: ColorPicker.danger,width: 50, height: 50,)
+          :
+               IconButton(onPressed: (){}, icon: SvgPicture.asset(AppImages.acceptLogo, color: ColorPicker.success,))
         ],
       ),
     );

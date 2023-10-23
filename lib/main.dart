@@ -5,11 +5,14 @@ import 'package:geodot/screens/dashboard.dart';
 import 'package:geodot/screens/login.dart';
 import 'package:geodot/screens/register.dart';
 import 'package:geodot/utils/colors.dart';
+import 'package:geodot/utils/constants.dart';
 import 'package:geodot/utils/images.dart';
 import 'package:geodot/utils/routes.dart';
+import 'package:geodot/utils/socketClient.dart';
 import 'package:geodot/utils/storage.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized() ;
@@ -30,7 +33,6 @@ class MyApp extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
     return GetMaterialApp(
       theme: ThemeData(
-
         colorScheme: ColorScheme.fromSeed(seedColor: ColorPicker.primary),
         useMaterial3: true,
         textTheme: GoogleFonts.robotoMonoTextTheme(textTheme).copyWith(
@@ -50,7 +52,13 @@ class MyApp extends StatelessWidget {
             )
         ),
         onInit: ()  {
-
+          if(AuthService.userLogin == 1){
+            SocketClient socketClient = SocketClient() ;
+            socketClient.connect();
+            socketClient.socket.on('connect', (data) => {
+              socketClient.socket.emit("join", AuthService.userId)
+            });
+          }
         },
 
         onEnd: () {
@@ -59,9 +67,9 @@ class MyApp extends StatelessWidget {
 
         setNextScreenAsyncCallback: () async {
 
-          return  AuthService.userNovice == 1  ? const RegisterPage():
+          return AuthService.userNovice == 1  ? const RegisterPage():
           AuthService.userLogin == 0 ? const LoginPage(): const DashBoardPage();
-          // const  MyHomePage();
+          // const MyHomePage();
         },
         defaultNextScreen: AuthService.userNovice == 1  ? const RegisterPage():
         AuthService.userLogin == 0 ? const LoginPage(): const DashBoardPage(),
