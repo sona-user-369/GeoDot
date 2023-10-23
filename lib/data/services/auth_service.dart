@@ -23,6 +23,8 @@ class AuthService {
 
     AppStorage.setToken(response.data["token"]);
     AppStorage.setLoginUser(1) ;
+    AppStorage.setIdUser(response.data["user"]["id"]) ;
+    AppStorage.setUserConId(response.data["user"]["conId"]) ;
 
     userLogin = 1 ;
 
