@@ -22,6 +22,12 @@ class RegisterController extends GetxController {
   }
 
 
+  resetState(){
+    validState = null ;
+    update();
+  }
+
+
    sendRegister(data) async {
     try{
      await AuthService.register(data);
@@ -29,6 +35,7 @@ class RegisterController extends GetxController {
     }catch(e){
       if(e is DioException){
         if(e.response != null ){
+          print(e);
            validState = 'This username is already exist' ;
         }else{
          print(e);

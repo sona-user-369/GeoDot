@@ -1,4 +1,6 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:geodot/controllers/login_controller.dart';
 import 'package:geodot/utils/images.dart';
 import 'package:get/get.dart';
@@ -16,14 +18,41 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
 
-  late LoginController controller;
+  late LoginController controller ;
   final _formKey = GlobalKey<FormState>() ;
+
+  var usernameController = TextEditingController();
+  var passwordController = TextEditingController() ;
+
+  bool hide = true ;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     controller = Get.put(LoginController());
+  }
+
+  submit(data, context) async {
+    if((!_formKey.currentState!.validate() && controller.validState != null) || _formKey.currentState!.validate()) {
+      controller.changeLoadingState(true);
+      if (await controller.sendLogin(data)) {
+        Navigator.pushNamed(context, 'dashboard');
+        Flushbar(
+          title:  "Welcome",
+          message:  "You're are welcome beyond geodot users !",
+          duration:  const Duration(seconds: 3),
+        ).show(context);
+      }
+      controller.changeLoadingState(false);
+      if(!controller.connectivity){
+        Flushbar(
+          title:  "Error",
+          message:  "Unable to connect to the remote server",
+          duration:  const Duration(seconds: 3),
+        ).show(context);
+      }
+    }
   }
 
   @override
@@ -43,7 +72,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     Container(
-                      height: MediaQuery.of(context).size.height/2,
+                      height: MediaQuery.of(context).size.height/2-50,
                       alignment: Alignment(-0.5, 0.1),
                       decoration: const BoxDecoration(
                         color: ColorPicker.white,
@@ -57,148 +86,186 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     Positioned(
-                      bottom: - 3*Constants.defaultPadding,
+                      bottom: 2*Constants.defaultPadding,
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width,
                         height: MediaQuery.of(context).size.height/2,
                         child: Form(
                             key: _formKey,
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    alignment: Alignment.topLeft,
-                                    child: const Text(
-                                      'Username :',
-                                      style: TextStyle(
-                                          fontSize: 18
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      alignment: Alignment.topLeft,
+                                      child: const Text(
+                                        'Username :',
+                                        style: TextStyle(
+                                            fontSize: 18
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: TextFormField(
-                                    keyboardType: TextInputType.text,
-                                    decoration: InputDecoration(
-                                      filled: true,
-                                      fillColor: ColorPicker.white,
-                                      border: InputBorder.none,
-                                      enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: ColorPicker.dark.withOpacity(0.2),
-                                              width: 3
-                                          ),
-                                          borderRadius: BorderRadius.circular(10)
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                            color: ColorPicker.success,
-                                          ),
-                                          borderRadius: BorderRadius.circular(10)
-                                      ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: TextFormField(
+                                      keyboardType: TextInputType.text,
+                                      controller: usernameController,
+                                      validator: (value){
+                                        if(value == null || value == ''){
+                                          return 'Champ requis';
+                                        }
+                                        return controller.validState ;
+                                      },
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: ColorPicker.white,
+                                        border: InputBorder.none,
+                                        enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: ColorPicker.dark.withOpacity(0.2),
+                                                width: 3
+                                            ),
+                                            borderRadius: BorderRadius.circular(10)
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                              color: ColorPicker.success,
+                                            ),
+                                            borderRadius: BorderRadius.circular(10)
+                                        ),
 
-                                      errorBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                            color: ColorPicker.danger,
-                                          ),
-                                          borderRadius: BorderRadius.circular(10)
-                                      ),
-                                      focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                            color: ColorPicker.danger,
-                                          ),
-                                          borderRadius: BorderRadius.circular(10)
+                                        errorBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                              color: ColorPicker.danger,
+                                            ),
+                                            borderRadius: BorderRadius.circular(10)
+                                        ),
+                                        focusedErrorBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                              color: ColorPicker.danger,
+                                            ),
+                                            borderRadius: BorderRadius.circular(10)
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
 
-                                const SizedBox(height: Constants.defaultPadding,),
+                                  const SizedBox(height: Constants.defaultPadding,),
 
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    alignment: Alignment.topLeft,
-                                    child: const Text(
-                                      'Password :',
-                                      style: TextStyle(
-                                          fontSize: 18
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      alignment: Alignment.topLeft,
+                                      child: const Text(
+                                        'Password :',
+                                        style: TextStyle(
+                                            fontSize: 18
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: TextFormField(
-                                    keyboardType: TextInputType.text,
-                                    decoration: InputDecoration(
-                                      filled: true,
-                                      fillColor: ColorPicker.white,
-                                      border: InputBorder.none,
-                                      enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                              color: ColorPicker.dark.withOpacity(0.2),
-                                              width: 3
-                                          ),
-                                          borderRadius: BorderRadius.circular(10)
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                            color: ColorPicker.success,
-                                          ),
-                                          borderRadius: BorderRadius.circular(10)
-                                      ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: TextFormField(
+                                      keyboardType: TextInputType.text,
+                                      controller: passwordController,
+                                      validator: (value){
+                                        if(value == null || value == ''){
+                                          return 'Champ requis';
+                                        }
+                                        return null ;
+                                      },
+                                      decoration: InputDecoration(
+                                        filled: true,
+                                        fillColor: ColorPicker.white,
+                                        border: InputBorder.none,
+                                        suffixIcon: IconButton(
+                                          onPressed: (){
+                                            setState(() {
+                                              hide=!hide ;
+                                            });
+                                          },
+                                          icon: hide ? SvgPicture.asset('assets/logos/hide.svg', color: ColorPicker.dark,)
+                                              : SvgPicture.asset("assets/logos/show.svg", color: ColorPicker.dark,),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                                color: ColorPicker.dark.withOpacity(0.2),
+                                                width: 3
+                                            ),
+                                            borderRadius: BorderRadius.circular(10)
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                              color: ColorPicker.success,
+                                            ),
+                                            borderRadius: BorderRadius.circular(10)
+                                        ),
 
-                                      errorBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                            color: ColorPicker.danger,
-                                          ),
-                                          borderRadius: BorderRadius.circular(10)
-                                      ),
-                                      focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: const BorderSide(
-                                            color: ColorPicker.danger,
-                                          ),
-                                          borderRadius: BorderRadius.circular(10)
+                                        errorBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                              color: ColorPicker.danger,
+                                            ),
+                                            borderRadius: BorderRadius.circular(10)
+                                        ),
+                                        focusedErrorBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                              color: ColorPicker.danger,
+                                            ),
+                                            borderRadius: BorderRadius.circular(10)
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
 
-                                SizedBox(height: Constants.defaultPadding,),
+                                  // SizedBox(height: Constants.defaultPadding,),
 
-                                Container(
-                                  alignment: Alignment.topRight,
-                                  child: TextButton(
-                                    onPressed: (){
-                                      Navigator.pushNamed(context, 'login');
-                                    },
-                                    child: const Text('Are you new here ?'),
-                                  ),
-                                ),
-
-                                ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: ColorPicker.success,
-                                        fixedSize: Size(160, 40)
+                                  Container(
+                                    alignment: Alignment.topRight,
+                                    child: TextButton(
+                                      onPressed: (){
+                                        Navigator.pushNamed(context, 'login');
+                                      },
+                                      child: const Text('Are you new here ?'),
                                     ),
-                                    onPressed: (){
-                                      Navigator.pushNamed(context, 'dashboard');
-                                    },
-                                    child: const Text(
-                                      'Login',
-                                      style: TextStyle(
+                                  ),
+
+                                  ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          backgroundColor: ColorPicker.success,
+                                          fixedSize: Size(160, 40)
+                                      ),
+                                      onPressed: () async{
+                                        var data = {
+                                          "username": usernameController.text,
+                                          "password": passwordController.text,
+                                        } ;
+                                        await submit(data, context) ;
+                                      },
+                                      child: !controller.loadingState ? const Text(
+                                        'Login',
+                                        style: TextStyle(
+                                            color: ColorPicker.white,
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 17
+                                        ),
+                                      ):
+                                      SizedBox(
+                                        width: 30,
+                                        height: 30,
+                                        child: CircularProgressIndicator(
                                           color: ColorPicker.white,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 17
-                                      ),
-                                    )
-                                ),
+                                          strokeWidth: 3,
+                                          backgroundColor: ColorPicker.white.withOpacity(0.7),
+                                        ),
+                                      )
+                                  ),
 
 
-                              ],
+                                ],
+                              ),
                             )
                         )
                       ),

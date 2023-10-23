@@ -14,7 +14,12 @@ class AuthService {
 
     var dio = Dio() ;
 
-    var response = await  dio.post(Constants.server, data: data);
+    var formData = FormData.fromMap(data) ;
+
+    var response = await  dio.post(
+        "${Constants.server}/users/login",
+        data: formData,
+    );
 
     AppStorage.setToken(response.data["token"]);
 
@@ -27,10 +32,11 @@ class AuthService {
 
   static register(data) async{
     var dio = Dio() ;
+    var formData = FormData.fromMap(data);
 
     var response = await  dio.post(
-        Constants.server,
-        data: data,
+        "${Constants.server}/users/register",
+        data: formData,
         options: Options(
           headers: {"Authorization": Constants.hashAccess}
         )

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:geodot/utils/storage.dart';
 import 'package:get/get.dart' ;
 
 import '../data/services/auth_service.dart';
@@ -8,6 +9,7 @@ class LoginController extends GetxController {
 
   bool loadingState = false ;
   String? validState ;
+  bool connectivity = true ;
 
   @override
   void onInit() {
@@ -22,15 +24,24 @@ class LoginController extends GetxController {
 
   sendLogin(data) async {
     try{
-      dynamic response = await AuthService.login(data);
+      await AuthService.login(data);
     }catch(e){
       if(e is DioException){
         if(e.response != null ){
-          validState = 'This username is already exist' ;
+          validState = 'This username does not exist' ;
         }else{
           print(e);
+          connectivity = false ;
         }
       }
+      update();
+      return false ;
     }
+
+    update();
+    return true ;
   }
+
+
+
 }

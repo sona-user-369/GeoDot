@@ -35,8 +35,9 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   submit(data, context) async {
-      if(_formKey.currentState!.validate()) {
+      if((!_formKey.currentState!.validate() && controller.validState != null) || _formKey.currentState!.validate()) {
         controller.changeLoadingState(true);
+        controller.resetState() ;
         if (await controller.sendRegister(data)) {
           Flushbar(
             title:  "Congratulations",
