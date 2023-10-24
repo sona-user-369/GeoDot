@@ -49,11 +49,11 @@ class ContactService {
 
   static get() async{
     var dio = Dio() ;
-
+    String? token = await AppStorage.getToken() ;
     var response = await  dio.get(
         "${Constants.server}/contacts/get",
         options: Options(
-            headers: {"Authorization": Constants.hashAccess}
+            headers: {"Authorization": "Bearer $token"}
         )
     );
 

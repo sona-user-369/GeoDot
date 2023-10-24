@@ -21,10 +21,12 @@ class AuthService {
         data: formData,
     );
 
-    AppStorage.setToken(response.data["token"]);
-    AppStorage.setLoginUser(1) ;
-    AppStorage.setIdUser(response.data["user"]["id"]) ;
-    AppStorage.setUserConId(response.data["user"]["conId"]) ;
+    print(response.data);
+
+    await AppStorage.setToken(response.data["token"]);
+    await AppStorage.setLoginUser(1) ;
+    await AppStorage.setIdUser(response.data["user"]["id"]) ;
+    await AppStorage.setUserConId(response.data["user"]["con_id"]) ;
 
     userLogin = 1 ;
 

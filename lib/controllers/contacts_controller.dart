@@ -10,11 +10,11 @@ class ContactsController extends GetxController {
   List<UserContact> contacts = [] ;
 
   @override
-  void onInit() {
+  void onInit() async {
     // TODO: implement onInit
     super.onInit();
 
-    List<Contact> responseContact = ContactService.get();
+    List<Contact> responseContact = await ContactService.get();
     contacts = responseContact.map((e) => UserContact(contact: e, connect: false)).toList() ;
 
     update() ;

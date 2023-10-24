@@ -28,6 +28,7 @@ class _ContactsPageState extends State<ContactsPage> {
     // TODO: implement initState
     super.initState();
     controller = Get.put(ContactsController());
+    print('cool');
   }
 
 
