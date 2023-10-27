@@ -60,6 +60,21 @@ class ContactService {
     return (response.data as List).map((e) => Contact.fromJson(e)).toList();
   }
 
+
+  static getTotals() async {
+    var dio = Dio() ;
+    String? token = await AppStorage.getToken() ;
+    var response = await  dio.get(
+        "${Constants.server}/contacts/get/totals",
+        options: Options(
+            headers: {"Authorization": "Bearer $token"}
+        )
+    );
+
+    return response.data ;
+
+  }
+
 }
 
 
