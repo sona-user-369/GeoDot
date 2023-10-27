@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:geodot/controllers/add_contact_controller.dart';
 import 'package:get/get.dart';
@@ -19,12 +20,31 @@ class _AddContactPageState extends State<AddContactPage> {
 
   late AddContactController controller ;
   var _formKey = GlobalKey<FormState>() ;
+  var conIdController = TextEditingController() ;
+  var nameController = TextEditingController() ;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     controller = Get.put(AddContactController()) ;
+  }
+
+
+  submit(Map data, context) async {
+    if(_formKey.currentState!.validate()){
+      controller.changeLoadState(true) ;
+      await controller.requestAdd(data["conId"]);
+      if(controller.haveError){
+         Flushbar(
+          title: 'Error',
+          message: 'We encountered an error to send request to this user',
+          duration: const Duration(seconds: 3),
+        ).show(context);
+      }
+      controller.changeLoadState(false) ;
+    }
+
   }
 
   @override
@@ -61,6 +81,13 @@ class _AddContactPageState extends State<AddContactPage> {
                           padding: const EdgeInsets.all(8.0),
                           child: TextFormField(
                             keyboardType: TextInputType.text,
+                            controller: conIdController,
+                            validator: (value){
+                              if(value == '' || value == null){
+                                return 'This field is required' ;
+                              }
+                              return null ;
+                            },
                             decoration: InputDecoration(
                               // filled: true,
                               fillColor: ColorPicker.dark.withOpacity(0.2),
@@ -95,7 +122,7 @@ class _AddContactPageState extends State<AddContactPage> {
                           ),
                         ),
 
-                        SizedBox(height: Constants.defaultPadding,),
+                        const SizedBox(height: Constants.defaultPadding,),
 
                         Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -154,15 +181,28 @@ class _AddContactPageState extends State<AddContactPage> {
                                 backgroundColor: ColorPicker.success,
                                 fixedSize: Size(180, 40)
                             ),
-                            onPressed: (){
-                              Navigator.pushNamed(context, 'contacts');
+                            onPressed: () async {
+                              var data = {
+                                "conId": conIdController.text ,
+                                "name":nameController.text
+                              };
+                              await submit(data, context) ;
                             },
-                            child: const Text(
+                            child: !controller.loadingState ? const Text(
                               'Send request',
                               style: TextStyle(
                                   color: ColorPicker.white,
                                   fontWeight: FontWeight.w500,
                                   fontSize: 17
+                              ),
+                            ):
+                            SizedBox(
+                              width: 30,
+                              height: 30,
+                              child: CircularProgressIndicator(
+                                color: ColorPicker.white,
+                                strokeWidth: 3,
+                                backgroundColor: ColorPicker.white.withOpacity(0.7),
                               ),
                             )
                         ),
