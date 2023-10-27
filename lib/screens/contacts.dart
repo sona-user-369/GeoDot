@@ -102,7 +102,7 @@ class _ContactsPageState extends State<ContactsPage> {
                            borderRadius: BorderRadius.circular(15),
                            color: controller.contact  ? ColorPicker.success.withOpacity(0.5):ColorPicker.white
                          ),
-                         child: Text(
+                         child: const Text(
                            'main'
                          ),
                        ),
@@ -119,7 +119,7 @@ class _ContactsPageState extends State<ContactsPage> {
                               borderRadius: BorderRadius.circular(15),
                               color: !controller.contact  ? ColorPicker.success.withOpacity(0.5):ColorPicker.white
                           ),
-                         child: Text(
+                         child: const Text(
                            'requests'
                          ),
                      ),
