@@ -47,7 +47,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                   children: [
                     CardDash(
                       backgroundColor: ColorPicker.primary.withOpacity(0.4),
-                      title: '4',
+                      title: "${controller.totalContacts}",
                       subtitle: 'total',
                       logo: SvgPicture.asset(
                         AppImages.totalLogo,
@@ -57,7 +57,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
                     ),
                     CardDash(
                       backgroundColor: ColorPicker.warning.withOpacity(0.7),
-                      title: '2',
+                      title: "${controller.totalConnected}",
                       subtitle: 'connected',
                       logo: SvgPicture.asset(
                         AppImages.onlineLogo,
