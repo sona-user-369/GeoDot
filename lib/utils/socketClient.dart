@@ -10,7 +10,7 @@ class SocketClient {
   }
 
   SocketClient._internal() {
-    socket = io(Constants.server, <String, dynamic>{
+    socket = io('${Constants.server}/ws/socket.io/', <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
     });
