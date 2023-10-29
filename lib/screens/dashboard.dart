@@ -26,6 +26,7 @@ class _DashBoardPageState extends State<DashBoardPage> {
     // TODO: implement initState
     super.initState();
     controller = Get.put(DashBoardController());
+    controller.reloadData();
   }
 
   @override

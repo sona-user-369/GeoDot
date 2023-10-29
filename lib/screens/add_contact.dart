@@ -1,6 +1,7 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:geodot/controllers/add_contact_controller.dart';
+import 'package:geodot/utils/storage.dart';
 import 'package:get/get.dart';
 
 import '../utils/colors.dart';
@@ -41,6 +42,8 @@ class _AddContactPageState extends State<AddContactPage> {
           message: 'We encountered an error to send request to this user',
           duration: const Duration(seconds: 3),
         ).show(context);
+      }else{
+        await AppStorage.setKindlyName(data["conId"], data["name"]);
       }
       controller.changeLoadState(false) ;
     }

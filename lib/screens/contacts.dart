@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geodot/controllers/contacts_controller.dart';
 import 'package:geodot/utils/constants.dart';
+import 'package:geodot/utils/storage.dart';
 import 'package:geodot/widgets/box_contact.dart';
 import 'package:get/get.dart';
 
@@ -20,6 +21,8 @@ class _ContactsPageState extends State<ContactsPage> {
 
   late ContactsController controller ;
   var searchController = TextEditingController() ;
+  Iterable<Future<Widget>> listContact = [] ;
+  List<Widget> listContactDefinite = [] ;
 
 
 
@@ -29,6 +32,33 @@ class _ContactsPageState extends State<ContactsPage> {
     super.initState();
     controller = Get.put(ContactsController());
     print('cool');
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await loadData();
+    });
+
+
+
+  }
+
+
+  loadData() async {
+    listContact =  controller.contact ? controller.contacts.where((element) => element.contact!.state == true).map(
+            (e) async => BoxContact(
+          label: await AppStorage.getKindlyName(e.contact!.user!.conId!),
+          image: AppImages.geoDotContact,
+          online: e.connect!,
+        )
+    ).toList():
+    controller.contacts.where((element) => element.contact!.state == false).map(
+            (e) async  => BoxContact(
+          label: await AppStorage.getKindlyName(e.contact!.user!.conId!),
+          image: AppImages.geoDotContact,
+          online: e.connect!,
+        )
+    );
+
+    listContactDefinite = await Future.wait(listContact) ;
   }
 
 
@@ -129,22 +159,8 @@ class _ContactsPageState extends State<ContactsPage> {
                   SizedBox(
                    child: SingleChildScrollView(
                      child: Column(
-                       children: controller.contact ? controller.contacts.where((element) => element.contact!.state == true).map(
-                               (e) => BoxContact(
-                                   label: e.contact!.user!.conId!,
-                                   image: AppImages.geoDotContact,
-                                   online: e.connect!,
-                               )
-                       ).toList():
-                       controller.contacts.where((element) => element.contact!.state == false).map(
-                               (e) => BoxContact(
-                             label: e.contact!.user!.conId!,
-                             image: AppImages.geoDotContact,
-                             online: e.connect!,
-                           )
-                       ).toList()
+                       children: listContactDefinite
                      )
-
                      ,
                    ),
                  )

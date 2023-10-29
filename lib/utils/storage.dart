@@ -49,6 +49,11 @@ class AppStorage {
   }
 
 
+  static Future<String> getKindlyName(conId) async {
+    return await preferences.read(key: conId) ?? conId;
+  }
+
+
   static setLoginUser(int value)  async {
     return await  preferences.write(key:_loginUser, value:value.toString());
   }
@@ -67,6 +72,10 @@ class AppStorage {
   static setUserConId(String value) async {
 
     return await preferences.write(key: _userConId, value: value) ;
+  }
+
+  static setKindlyName(String conId, String value) async {
+    return await preferences.write(key: conId, value: value);
   }
 
 

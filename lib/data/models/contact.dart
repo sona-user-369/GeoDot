@@ -5,11 +5,13 @@ class Contact {
     this.id,
     this.user,
     this.state,
+    this.online,
   });
 
-  final String? id ;
-  final User? user ;
+  String? id ;
+  User? user ;
   bool? state ;
+  bool? online ;
 
 
 
@@ -17,6 +19,7 @@ class Contact {
     id: json["id"],
     user: User.fromJson(json["user"]),
     state: json["state"]["enable"],
+    online: json["online"]
   );
 
 }
