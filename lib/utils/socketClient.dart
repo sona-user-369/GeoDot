@@ -14,7 +14,8 @@ class SocketClient {
 
   SocketClient._internal() {
     socket = IOWebSocketChannel.connect(
-      Uri.parse('${Constants.socketServer}/${AuthService.userId}'),
+      '${Constants.socketServer}/${AuthService.userId}',
+      headers: {'Connection': 'upgrade', 'Upgrade': 'websocket'}
     );
   }
 

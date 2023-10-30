@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:geodot/data/services/contact_service.dart';
 import 'package:get/get.dart' ;
 
@@ -26,17 +28,18 @@ class DashBoardController extends GetxController {
     SocketClient socketClient = SocketClient();
 
     socketClient.socket.stream.listen((data){
-      if (data['contact_connect'] != null){
+      print(data.runtimeType);
+      print(json.decode(data));
+      if (data.contact_connect != null){
         var contactsMatch = contacts.where((element) => element.contact!.id == data["contact_connect"]) ;
         if(contactsMatch.isNotEmpty){
           totalConnected += 1 ;
         }
         update();
       }
-    }) ;
 
-    socketClient.socket.stream.listen((data){
       if(data["contact_disconnect"] != null){
+
         var contactsMatch = contacts.where((element) => element.contact!.id == data["contact_disconnect"]) ;
         if(contactsMatch.isNotEmpty){
           totalConnected -= 1 ;
@@ -44,6 +47,8 @@ class DashBoardController extends GetxController {
         update();
       }
     }) ;
+
+
   }
 
 

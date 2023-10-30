@@ -27,9 +27,10 @@ class AddContactController extends GetxController {
     }catch(e){
        if(e is DioException){
          if(e.response != null){
+           haveError = true ;
            print(e);
          }else{
-           haveError = true ;
+
          }
        }
     }

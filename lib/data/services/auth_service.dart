@@ -27,6 +27,7 @@ class AuthService {
     await AppStorage.setLoginUser(1) ;
     await AppStorage.setIdUser(response.data["user"]["id"]) ;
     await AppStorage.setUserConId(response.data["user"]["con_id"]) ;
+    print(response.data["user"]["id"]);
 
     userLogin = 1 ;
 
@@ -51,6 +52,8 @@ class AuthService {
   }
 
   static logout() async {
+    AppStorage.setLoginUser(0);
+    AuthService.userLogin = 0 ;
     var dio = Dio();
     var token = await AppStorage.getToken();
     await dio.post(
@@ -59,9 +62,6 @@ class AuthService {
             headers: {"Authorization": "Bearer $token"}
         )
     );
-
-    AppStorage.setLoginUser(0);
-    AuthService.userLogin = 0 ;
   }
 
 }

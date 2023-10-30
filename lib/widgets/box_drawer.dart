@@ -22,8 +22,12 @@ class BoxDrawer extends StatelessWidget {
       Flushbar(
         title: 'Error',
         message: 'There was an error. Please try again !',
+        duration: Duration(seconds: 3),
       ).show(context);
     }
+    SocketClient socketClient = SocketClient();
+    socketClient.disconnect();
+    SystemNavigator.pop();
   }
 
   @override
