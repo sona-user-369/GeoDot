@@ -55,9 +55,6 @@ class MyApp extends StatelessWidget {
           if(AuthService.userLogin == 1){
             SocketClient socketClient = SocketClient() ;
             socketClient.connect();
-            socketClient.socket.on('connect', (data) => {
-              socketClient.socket.emit("join", AuthService.userId)
-            });
           }
         },
 

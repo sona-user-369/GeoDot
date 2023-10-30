@@ -24,21 +24,26 @@ class DashBoardController extends GetxController {
     totalConnected = response["total_connected"] ;
     update() ;
     SocketClient socketClient = SocketClient();
-    socketClient.socket.on('contactConnect', (data){
-      var contactsMatch = contacts.where((element) => element.contact!.id == data) ;
-      if(contactsMatch.isNotEmpty){
-        totalConnected += 1 ;
-      }
-      update();
-    } ) ;
 
-    socketClient.socket.on('contactDisconnect', (data){
-      var contactsMatch = contacts.where((element) => element.contact!.id == data) ;
-      if(contactsMatch.isNotEmpty){
-        totalConnected -= 1 ;
+    socketClient.socket.stream.listen((data){
+      if (data['contact_connect'] != null){
+        var contactsMatch = contacts.where((element) => element.contact!.id == data["contact_connect"]) ;
+        if(contactsMatch.isNotEmpty){
+          totalConnected += 1 ;
+        }
+        update();
       }
-      update();
-    } ) ;
+    }) ;
+
+    socketClient.socket.stream.listen((data){
+      if(data["contact_disconnect"] != null){
+        var contactsMatch = contacts.where((element) => element.contact!.id == data["contact_disconnect"]) ;
+        if(contactsMatch.isNotEmpty){
+          totalConnected -= 1 ;
+        }
+        update();
+      }
+    }) ;
   }
 
 

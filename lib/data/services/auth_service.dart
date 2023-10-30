@@ -50,6 +50,20 @@ class AuthService {
     return User.fromJson(response.data);
   }
 
+  static logout() async {
+    var dio = Dio();
+    var token = await AppStorage.getToken();
+    await dio.post(
+      "${Constants.server}/users/logout",
+        options: Options(
+            headers: {"Authorization": "Bearer $token"}
+        )
+    );
+
+    AppStorage.setLoginUser(0);
+    AuthService.userLogin = 0 ;
+  }
+
 }
 
 

@@ -20,11 +20,13 @@ class ContactsController extends GetxController {
 
     update() ;
     SocketClient socketClient = SocketClient();
-    socketClient.socket.on('contactConnect', (data){
-      var contact = contacts.where((element) => element.contact!.id == data).first ;
-      contact.connect = true ;
-      update();
-    } ) ;
+    socketClient.socket.stream.listen((data){
+      if(data["contact_connect"]){
+        var contact = contacts.where((element) => element.contact!.id == data["contact_connect"]).first ;
+        contact.connect = true ;
+        update();
+      }
+    }) ;
   }
 
   changeContactState(bool value){

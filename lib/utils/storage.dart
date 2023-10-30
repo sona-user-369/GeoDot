@@ -55,7 +55,7 @@ class AppStorage {
 
 
   static setLoginUser(int value)  async {
-    return await  preferences.write(key:_loginUser, value:value.toString());
+    return await preferences.write(key:_loginUser, value:value.toString());
   }
 
 

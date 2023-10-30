@@ -1,10 +1,31 @@
+import 'dart:io';
+
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geodot/data/services/auth_service.dart';
 import 'package:geodot/utils/images.dart';
+import 'package:geodot/utils/socketClient.dart';
 
 import '../utils/colors.dart';
 
 class BoxDrawer extends StatelessWidget {
+
+  disconnect(context) async {
+    try{
+      await AuthService.logout() ;
+      SocketClient socketClient = SocketClient();
+      socketClient.disconnect();
+      SystemNavigator.pop();
+    }catch(e){
+      Flushbar(
+        title: 'Error',
+        message: 'There was an error. Please try again !',
+      ).show(context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -83,9 +104,10 @@ class BoxDrawer extends StatelessWidget {
                     )),
               ),
             ),
-            onTap: () {},
+            onTap: () async {
+              await disconnect(context) ;
+            },
           ),
-
           // Add more ListTile items for navigation
         ],
       ),
